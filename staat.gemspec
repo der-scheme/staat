@@ -8,10 +8,10 @@ Gem::Specification.new do |spec|
   spec.version       = Staat::VERSION
   spec.authors       = ["Sebastian Dufner"]
   spec.email         = ["dufners@informatik.uni-freiburg.de"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
-  spec.license       = "MIT"
+  spec.summary       = %q{A flexible assistant for tutors.}
+  spec.description   = %q{A flexible assistant for tutors.}
+  spec.homepage      = "https://github.com/der-scheme/staat"
+  spec.license       = "GPLv3"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }

@@ -25,16 +25,16 @@ module Event
     ##
     #
 
-    def initialize(object, name, args, options)
-      @scope = object.class
-      @object = object
-      @name = name
-      @args = args
-      @options = options
+    def initialize(object, action, args, options)
+      @scope    = object.class
+      @object   = object
+      @action   = action
+      @args     = args
+      @options  = options
     end
 
+    attr_reader :action
     attr_reader :args
-    attr_reader :name
     attr_reader :object
     attr_reader :options
     attr_reader :scope

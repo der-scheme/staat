@@ -22,13 +22,15 @@
 module Event
   class Declaration
 
-    def initialize(name: nil, scope: :all, type: :all, &function)
+    def initialize(name: nil, scope: BasicObject, action: nil, type: :all, &function)
       @name     = name
+      @action   = action
       @scope    = scope
       @type     = type
       @function = function
     end
 
+    attr_reader :action
     attr_reader :name
     attr_reader :scope
     attr_reader :type

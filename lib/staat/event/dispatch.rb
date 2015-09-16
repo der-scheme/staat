@@ -16,10 +16,31 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'staat/version'
-require_relative 'staat/actionable'
-require_relative 'staat/event'
+##
+#
 
-module Staat
-  # Your code goes here...
+module Event
+  class Dispatch
+
+    ##
+    #
+
+    def initialize(object, name, args, options)
+      @scope = object.class
+      @object = object
+      @name = name
+      @args = args
+      @options = options
+    end
+
+    ##
+    #
+
+    def event(type, *args)
+      fail ArgumentError, "unknown event type: #{type}" unless
+        [:invocation, :completion, :failure].include?(type)
+
+      #
+    end
+  end
 end

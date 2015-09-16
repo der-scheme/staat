@@ -16,10 +16,32 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'staat/version'
-require_relative 'staat/actionable'
-require_relative 'staat/event'
+require_relative 'action'
+require_relative 'event/dispatch'
+
+##
+#
 
 module Staat
-  # Your code goes here...
+  module Actionable
+
+    ##
+    #
+
+    def define_action(name, &body)
+      define_method(name) do |*args, **options|
+        dispatch = Event::Dispatch.new(self, name, args, options)
+        dispatch.event :invocation
+
+        begin
+          result = lambda(&body).call(*args, **options)
+        rescue StandardError => error
+          dispatch.event :failure, error
+        end
+
+        dispatch.event :completion, result
+      end
+    end
+
+  end
 end

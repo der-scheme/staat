@@ -16,6 +16,30 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'staat/event/declaration'
-require 'staat/event/dispatch'
-require 'staat/event/manager'
+##
+#
+
+module Event
+  class Manager
+
+    ##
+    #
+
+    def initialize
+    end
+
+    ##
+    #
+
+    def <<(declaration)
+      self
+    end
+
+    ##
+    #
+
+    def [](scope: nil, action: nil, name: nil)
+    end
+
+  end
+end

@@ -22,7 +22,7 @@
 module Event
   class Declaration
 
-    def initialize(name: nil, scope: BasicObject, action: nil, type: :all, &function)
+    def initialize(name: nil, scope: nil, action: nil, type: nil, &function)
       @name     = name
       @action   = action
       @scope    = scope

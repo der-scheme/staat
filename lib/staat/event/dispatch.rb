@@ -33,10 +33,16 @@ module Event
       @options = options
     end
 
+    attr_reader :args
+    attr_reader :name
+    attr_reader :object
+    attr_reader :options
+    attr_reader :scope
+
     ##
     #
 
-    def event(type, *args)
+    def event(type, **options)
       fail ArgumentError, "unknown event type: #{type}" unless
         [:invocation, :completion, :failure].include?(type)
 

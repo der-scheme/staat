@@ -35,10 +35,10 @@ module Staat
         begin
           result = lambda(&body).call(*args, **options)
         rescue StandardError => error
-          dispatch.event :failure, error
+          dispatch.event :failure, error: error
         end
 
-        dispatch.event :completion, result
+        dispatch.event :completion, result: result
       end
     end
 

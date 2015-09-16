@@ -16,9 +16,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'staat/version'
-require_relative 'staat/actionable'
-require_relative 'staat/event'
+require 'staat/version'
+require 'staat/actionable'
+require 'staat/event'
 
 module Staat
   # Your code goes here...

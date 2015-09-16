@@ -16,8 +16,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require_relative 'action'
-require_relative 'event/dispatch'
+require 'staat/event/dispatch'
 
 ##
 #

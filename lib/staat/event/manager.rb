@@ -20,55 +20,48 @@
 #
 
 module Event
-  class Manager
 
-    ##
-    #
+  ##
+  # Manages Declarations.
+
+  class Manager
 
     def initialize
       @events = {}
     end
 
     ##
-    #
+    # Adds the +declaration+ and returns *self*.
 
     def <<(declaration)
       self
     end
 
     ##
+    # Return a Set with all Declarations matching the given parameters, or
+    # +nil+ if none match.
     #
+    # Omitting or passing a false-evaluating parameter is equivalent to `gimme
+    # everything of that type'.
 
     def [](scope: nil, action: nil, name: nil)
-      if scope
-        result = [*scope].map!{|s| expand_scope(s)}.flatten
-            .map!{|scope| @events[scope]}.compact
-      else
-        result = [@events[BasicObject]]
-      end
+      scope = [BasicObject, *scope].flat_map(&:ancestors).uniq
+      result = Set.new(@events.values_at(*scope))
+      result.delete(nil)
 
       if action
-        result.map!{|events| events[action]}.compact!
+        result.each_with_object(action).map!(&:[]).delete(nil)
       else
-        result.map!{|events| events.values}.flatten!
+        result.map(&:values).reduce(result.clear, &:merge)
       end
 
       if name
-        result.map!{|events| events[name]}.compact!
+        result.each_with_object(name).map!(&:[]).delete(nil)
       else
-        result.map!{|events| events.values}.flatten!
+        result.map(&:values).reduce(result.clear, &:merge)
       end
 
       result unless result.empty?
-    end
-
-  private
-
-    ##
-    #
-
-    def expand_scope(scope)
-
     end
 
   end

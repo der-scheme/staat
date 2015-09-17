@@ -26,6 +26,7 @@ module Event
     #
 
     def initialize
+      @events = {}
     end
 
     ##
@@ -39,6 +40,35 @@ module Event
     #
 
     def [](scope: nil, action: nil, name: nil)
+      if scope
+        result = [*scope].map!{|s| expand_scope(s)}.flatten
+            .map!{|scope| @events[scope]}.compact
+      else
+        result = [@events[BasicObject]]
+      end
+
+      if action
+        result.map!{|events| events[action]}.compact!
+      else
+        result.map!{|events| events.values}.flatten!
+      end
+
+      if name
+        result.map!{|events| events[name]}.compact!
+      else
+        result.map!{|events| events.values}.flatten!
+      end
+
+      result unless result.empty?
+    end
+
+  private
+
+    ##
+    #
+
+    def expand_scope(scope)
+
     end
 
   end

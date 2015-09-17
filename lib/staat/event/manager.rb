@@ -34,6 +34,8 @@ module Event
     # Adds the +declaration+ and returns *self*.
 
     def <<(declaration)
+
+
       self
     end
 
@@ -45,8 +47,7 @@ module Event
     # everything of that type'.
 
     def [](scope: nil, action: nil, name: nil)
-      scope = [BasicObject, *scope].flat_map(&:ancestors).uniq
-      result = Set.new(@events.values_at(*scope))
+      result = Set.new(@events.values_at(*expand_scope(scope)))
       result.delete(nil)
 
       if action
@@ -62,6 +63,12 @@ module Event
       end
 
       result unless result.empty?
+    end
+
+  private
+
+    def expand_scope(scope)
+      [BasicObject, *scope].flat_map(&:ancestors).uniq
     end
 
   end

@@ -43,9 +43,6 @@ module Event
     #
 
     def event(type, **options)
-      fail ArgumentError, "unknown event type: #{type}" unless
-        [:invocation, :completion, :failure].include?(type)
-
       #
     end
   end

@@ -35,8 +35,10 @@ module Staat
       # Adds the +declaration+ and returns *self*.
 
       def <<(declaration)
-        expand_scope(declaration.scope)
-            .each {|scope| put_by_scope(scope, declaration)}
+        expand_scope(declaration.scope).each do |scope|
+          by_scope = (@events[scope] ||= {})
+          put_by_scope(by_scope, declaration)
+        end
 
         self
       end
@@ -48,33 +50,79 @@ module Staat
       # Omitting or passing a false-evaluating parameter is equivalent to `gimme
       # everything of that type'.
 
-      def [](scope: nil, action: nil, name: nil)
-        result = Set.new(@events.values_at(*expand_scope(scope)))
+      def [](scope: nil, action: nil, name: nil, type: nil)
+        scope = expand_scope(scope)
+        type  = expand_type(type)
+
+        result = Set.new(@events.values_at(*scope))
         result.delete(nil)
 
         if action
-          result.each_with_object(action).map!(&:[]).delete(nil)
+          reduce(result.map {|events| events.values_at(nil, *action)}, result)
         else
-          result.map(&:values).reduce(result.clear, &:merge)
+          reduce(result.map(&:values), result)
+        end
+
+        if type
+          reduce(result.map {|events| events.values_at(*type)}, result)
+        else
+          reduce(result.map(&:values), result)
         end
 
         if name
-          result.each_with_object(name).map!(&:[]).delete(nil)
+          reduce(result.map {|events| events.values_at(nil, *name)}, result)
         else
-          result.map(&:values).reduce(result.clear, &:merge)
+          reduce(result.map(&:values), result)
         end
+        result.flatten!
 
         result unless result.empty?
       end
 
+      ##
+      # Throws away all stored Declarations and returns +self+.
+
+      def clear
+        @events.clear
+        self
+      end
+
     private
+
+      def reduce(collection, result)
+        collection.reduce(result.clear, &:merge).delete(nil)
+      end
 
       def expand_scope(scope)
         [BasicObject, *scope].flat_map(&:ancestors).uniq
       end
 
-      def put_by_scope(scope, event)
-        @events[scope] ||= {}
+      def expand_type(type)
+        case type
+        when :all, nil
+          [:invocation, :failure, :completion]
+        when :invocation, :failure, :completion
+          [type]
+        end
+      end
+
+      def put_by_scope(events, event)
+        [nil, event.action].each do |action|
+          by_action = (events[action] ||= {})
+          put_by_action(by_action, event)
+        end
+      end
+
+      def put_by_action(events, event)
+        [*expand_type(event.type)].each do |type|
+          by_type = (events[type] ||= {})
+          put_by_type(by_type, event)
+        end
+      end
+
+      def put_by_type(events, event)
+        (events[nil] ||= []) << event
+        events[event.name] = event
       end
 
     end

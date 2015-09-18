@@ -24,9 +24,9 @@ module Staat
     class Declaration
 
       def initialize(name: nil, scope: nil, action: nil, type: nil, &function)
-        fail TypeError, "expected scope to be Class or Module" unless
+        fail TypeError, 'expected scope to be Class or Module' unless
           scope.respond_to?(:ancestors)
-        fail ArgumentError, "expected a block to be given" unless function
+        fail ArgumentError, 'expected a block to be given' unless function
 
         @name     = name
         @action   = action

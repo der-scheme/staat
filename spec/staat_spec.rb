@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe Staat do
-  it 'has a version number' do
-    expect(Staat::VERSION).not_to be nil
+  it 'is a Module' do
+    expect(Staat.class).to be Module
   end
 
-  it 'does something useful' do
-    expect(false).to eq(true)
+  it 'has a version number' do
+    expect(Staat::VERSION).not_to be nil
   end
 end

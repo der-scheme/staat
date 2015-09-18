@@ -19,57 +19,64 @@
 ##
 #
 
-module Event
-
-  ##
-  # Manages Declarations.
-
-  class Manager
-
-    def initialize
-      @events = {}
-    end
+module Staat
+  module Event
 
     ##
-    # Adds the +declaration+ and returns *self*.
+    # Manages Declarations.
 
-    def <<(declaration)
+    class Manager
 
-
-      self
-    end
-
-    ##
-    # Return a Set with all Declarations matching the given parameters, or
-    # +nil+ if none match.
-    #
-    # Omitting or passing a false-evaluating parameter is equivalent to `gimme
-    # everything of that type'.
-
-    def [](scope: nil, action: nil, name: nil)
-      result = Set.new(@events.values_at(*expand_scope(scope)))
-      result.delete(nil)
-
-      if action
-        result.each_with_object(action).map!(&:[]).delete(nil)
-      else
-        result.map(&:values).reduce(result.clear, &:merge)
+      def initialize
+        @events = {}
       end
 
-      if name
-        result.each_with_object(name).map!(&:[]).delete(nil)
-      else
-        result.map(&:values).reduce(result.clear, &:merge)
+      ##
+      # Adds the +declaration+ and returns *self*.
+
+      def <<(declaration)
+        expand_scope(declaration.scope)
+            .each {|scope| put_by_scope(scope, declaration)}
+
+        self
       end
 
-      result unless result.empty?
+      ##
+      # Return a Set with all Declarations matching the given parameters, or
+      # +nil+ if none match.
+      #
+      # Omitting or passing a false-evaluating parameter is equivalent to `gimme
+      # everything of that type'.
+
+      def [](scope: nil, action: nil, name: nil)
+        result = Set.new(@events.values_at(*expand_scope(scope)))
+        result.delete(nil)
+
+        if action
+          result.each_with_object(action).map!(&:[]).delete(nil)
+        else
+          result.map(&:values).reduce(result.clear, &:merge)
+        end
+
+        if name
+          result.each_with_object(name).map!(&:[]).delete(nil)
+        else
+          result.map(&:values).reduce(result.clear, &:merge)
+        end
+
+        result unless result.empty?
+      end
+
+    private
+
+      def expand_scope(scope)
+        [BasicObject, *scope].flat_map(&:ancestors).uniq
+      end
+
+      def put_by_scope(scope, event)
+        @events[scope] ||= {}
+      end
+
     end
-
-  private
-
-    def expand_scope(scope)
-      [BasicObject, *scope].flat_map(&:ancestors).uniq
-    end
-
   end
 end

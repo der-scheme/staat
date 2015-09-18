@@ -19,31 +19,33 @@
 ##
 #
 
-module Event
-  class Dispatch
+module Staat
+  module Event
+    class Dispatch
 
-    ##
-    #
-
-    def initialize(object, action, args, options)
-      @scope    = object.class
-      @object   = object
-      @action   = action
-      @args     = args
-      @options  = options
-    end
-
-    attr_reader :action
-    attr_reader :args
-    attr_reader :object
-    attr_reader :options
-    attr_reader :scope
-
-    ##
-    #
-
-    def event(type, **options)
+      ##
       #
+
+      def initialize(object, action, args, options)
+        @scope    = object.class
+        @object   = object
+        @action   = action
+        @args     = args
+        @options  = options
+      end
+
+      attr_reader :action
+      attr_reader :args
+      attr_reader :object
+      attr_reader :options
+      attr_reader :scope
+
+      ##
+      #
+
+      def event(type, **options)
+        #
+      end
     end
   end
 end

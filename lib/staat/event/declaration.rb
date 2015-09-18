@@ -19,28 +19,30 @@
 ##
 #
 
-module Event
-  class Declaration
+module Staat
+  module Event
+    class Declaration
 
-    def initialize(name: nil, scope: nil, action: nil, type: nil, &function)
-      fail TypeError, "expected scope to be Class or Module" unless
-        scope.respond_to?(:ancestors)
-      fail ArgumentError, "expected a block to be given" unless function
+      def initialize(name: nil, scope: nil, action: nil, type: nil, &function)
+        fail TypeError, "expected scope to be Class or Module" unless
+          scope.respond_to?(:ancestors)
+        fail ArgumentError, "expected a block to be given" unless function
 
-      @name     = name
-      @action   = action
-      @scope    = scope
-      @type     = type
-      @function = function
-    end
+        @name     = name
+        @action   = action
+        @scope    = scope
+        @type     = type
+        @function = function
+      end
 
-    attr_reader :action
-    attr_reader :name
-    attr_reader :scope
-    attr_reader :type
+      attr_reader :action
+      attr_reader :name
+      attr_reader :scope
+      attr_reader :type
 
-    def fire(event)
-      @function.call(event)
+      def fire(event)
+        @function.call(event)
+      end
     end
   end
 end

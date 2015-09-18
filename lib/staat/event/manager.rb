@@ -23,7 +23,7 @@ module Staat
   module Event
 
     ##
-    # Manages Declarations.
+    # Manages Anticipations.
 
     class Manager
 
@@ -32,19 +32,19 @@ module Staat
       end
 
       ##
-      # Adds the +declaration+ and returns *self*.
+      # Add the +anticipation+ and return *self*.
 
-      def <<(declaration)
-        expand_scope(declaration.scope).each do |scope|
+      def <<(anticipation)
+        expand_scope(anticipation.scope).each do |scope|
           by_scope = (@events[scope] ||= {})
-          put_by_scope(by_scope, declaration)
+          put_by_scope(by_scope, anticipation)
         end
 
         self
       end
 
       ##
-      # Return a Set with all Declarations matching the given parameters, or
+      # Return a Set with all Anticipations matching the given parameters, or
       # +nil+ if none match.
       #
       # Omitting or passing a false-evaluating parameter is equivalent to `gimme
@@ -80,7 +80,7 @@ module Staat
       end
 
       ##
-      # Throws away all stored Declarations and returns +self+.
+      # Throw away all stored Anticipations and return +self+.
 
       def clear
         @events.clear

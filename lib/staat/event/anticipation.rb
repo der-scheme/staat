@@ -21,7 +21,7 @@
 
 module Staat
   module Event
-    class Declaration
+    class Anticipation
 
       def initialize(name: nil, scope: nil, action: nil, type: nil, &function)
         fail TypeError, 'expected scope to be Class or Module' unless

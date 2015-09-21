@@ -70,11 +70,11 @@ module Staat
         end
 
         if name
-          reduce(result.map {|events| events.values_at(nil, *name)}, result)
+          reduce(result.map {|events| events.values_at(*name)}, result)
         else
           reduce(result.map(&:values), result)
         end
-        result.flatten!
+        result.map!{|e| e.is_a?(Array) ? Set.new(e) : e}.flatten!
 
         result unless result.empty?
       end
@@ -107,10 +107,8 @@ module Staat
       end
 
       def put_by_scope(events, event)
-        [nil, event.action].each do |action|
-          by_action = (events[action] ||= {})
-          put_by_action(by_action, event)
-        end
+        by_action = (events[event.action] ||= {})
+        put_by_action(by_action, event)
       end
 
       def put_by_action(events, event)
@@ -121,8 +119,11 @@ module Staat
       end
 
       def put_by_type(events, event)
-        (events[nil] ||= []) << event
-        events[event.name] = event
+        if event.name
+          events[event.name] = event
+        else
+          (events[nil] ||= []) << event
+        end
       end
 
     end

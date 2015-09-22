@@ -35,4 +35,16 @@ describe Staat::Event::Anticipation do
       end
     end
   end
+
+  describe '#to_query' do
+    let(:a1) {Staat::Event::Anticipation.new(name: 'test', scope: Object, action: :commit, type: :invocation) {}}
+    let(:a2) {Staat::Event::Anticipation.new(scope: Object, action: :bail_out, type: :failure) {}}
+    let(:a3) {Staat::Event::Anticipation.new(name: nil, scope: Object, action: :init, type: :completion) {}}
+
+    it 'should return a Hash containing all the params to .new' do
+      expect(a1.to_query).to eq({name: 'test', scope: Object, action: :commit, type: :invocation})
+      expect(a2.to_query).to eq({name: nil, scope: Object, action: :bail_out, type: :failure})
+      expect(a3.to_query).to eq({name: nil, scope: Object, action: :init, type: :completion})
+    end
+  end
 end

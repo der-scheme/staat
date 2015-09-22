@@ -43,6 +43,15 @@ module Staat
       def fire(event)
         @function.call(event)
       end
+
+      ##
+      # Return a Hash containing the name, scope, action and type of +self+,
+      # ready to be used in a query for Manager#[].
+
+      def to_query
+        {name: @name, action: @action, scope: @scope, type: @type}
+      end
+      alias_method :to_hash, :to_query
     end
   end
 end

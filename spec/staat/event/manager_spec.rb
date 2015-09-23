@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Staat::Event::Manager do
   let(:a1) {Staat::Event::Anticipation.new(scope: BasicObject, action: :to_s, type: :all, name: :foo) {}}
-  let(:a2) {Staat::Event::Anticipation.new(scope: Array, action: :each, type: :invocatin) {}}
+  let(:a2) {Staat::Event::Anticipation.new(scope: Array, action: :each, type: :invocation) {}}
   let(:a3) {Staat::Event::Anticipation.new(scope: Hash, action: :each, type: :failure, name: :bar) {}}
   let(:a4) {Staat::Event::Anticipation.new(scope: BasicObject, action: :to_s, type: nil, name: :foo) {}}
   let(:a5) {Staat::Event::Anticipation.new(scope: String, action: :to_s, type: :completion, name: :baz) {}}

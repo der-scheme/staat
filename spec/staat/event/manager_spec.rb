@@ -22,9 +22,9 @@ describe Staat::Event::Manager do
     end
 
     it 'should store with respect to scope, action, type and name' do
-      expect(trivial[scope: BasicObject, action: :to_s, type: :all, name: :foo]).to contain_exactly(a1)
-      expect(trivial[scope: Hash, action: :each, type: :failure, name: :bar]).to contain_exactly(a3)
-      expect(trivial[scope: String, action: :to_s, type: :completion, name: :baz]).to contain_exactly(a5)
+      expect(trivial[**a1.to_query]).to contain_exactly(a1)
+      expect(trivial[**a3.to_query]).to contain_exactly(a3)
+      expect(trivial[**a5.to_query]).to contain_exactly(a5)
     end
 
     it 'should also store in all superscopes of scope' do

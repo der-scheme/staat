@@ -23,7 +23,9 @@ describe Staat::Event::Manager do
 
     it 'should store with respect to scope, action, type and name' do
       expect(trivial[**a1.to_query]).to contain_exactly(a1)
+      expect(trivial[**a2.to_query]).to be_nil
       expect(trivial[**a3.to_query]).to contain_exactly(a3)
+      expect(trivial[**a4.to_query]).to contain_exactly(a1)
       expect(trivial[**a5.to_query]).to contain_exactly(a5)
     end
 

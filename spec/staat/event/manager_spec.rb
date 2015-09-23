@@ -27,6 +27,12 @@ describe Staat::Event::Manager do
       expect(trivial[**a3.to_query]).to contain_exactly(a3)
       expect(trivial[**a4.to_query]).to contain_exactly(a1)
       expect(trivial[**a5.to_query]).to contain_exactly(a5)
+
+      expect(complex[**a1.to_query]).to contain_exactly(a4)
+      expect(complex[**a2.to_query]).to contain_exactly(a2)
+      expect(complex[**a3.to_query]).to contain_exactly(a3)
+      expect(complex[**a4.to_query]).to contain_exactly(a4)
+      expect(complex[**a5.to_query]).to contain_exactly(a5)
     end
 
     it 'should also store in all superscopes of scope' do

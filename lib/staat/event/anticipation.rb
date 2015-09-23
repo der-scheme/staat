@@ -21,31 +21,37 @@
 
 module Staat
   module Event
-    class Dispatch
+    class Anticipation
 
-      ##
-      #
+      def initialize(name: nil, scope: nil, action: nil, type: nil, &function)
+        fail TypeError, 'expected scope to be Class or Module' unless
+          scope.respond_to?(:ancestors)
+        fail ArgumentError, 'expected a block to be given' unless function
 
-      def initialize(object, action, args, options)
-        @scope    = object.class
-        @object   = object
+        @name     = name
         @action   = action
-        @args     = args
-        @options  = options
+        @scope    = scope
+        @type     = type
+        @function = function
       end
 
       attr_reader :action
-      attr_reader :args
-      attr_reader :object
-      attr_reader :options
+      attr_reader :name
       attr_reader :scope
+      attr_reader :type
+
+      def fire(event)
+        @function.call(event)
+      end
 
       ##
-      #
+      # Return a Hash containing the name, scope, action and type of +self+,
+      # ready to be used in a query for Manager#[].
 
-      def event(type, **options)
-        #
+      def to_query
+        {name: @name, action: @action, scope: @scope, type: @type}
       end
+      alias_method :to_hash, :to_query
     end
   end
 end

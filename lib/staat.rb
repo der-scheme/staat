@@ -19,6 +19,7 @@
 require_relative 'staat/version'
 require_relative 'staat/actionable'
 require_relative 'staat/event'
+require 'staat/serializable'
 
 module Staat
   # Your code goes here...

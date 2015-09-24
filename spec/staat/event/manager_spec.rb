@@ -36,6 +36,10 @@ describe Staat::Event::Manager do
     end
 
     it 'should also store in all superscopes of scope' do
+      expect(trivial[scope: BasicObject]).to contain_exactly(a1, a3, a5)
+      expect(trivial[scope: Enumerable]).to  contain_exactly(a3)
+      expect(complex[scope: BasicObject]).to contain_exactly(a2, a3, a4, a5)
+      expect(complex[scope: Enumerable]).to  contain_exactly(a2, a3)
     end
 
     context 'when type' do

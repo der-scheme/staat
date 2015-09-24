@@ -51,7 +51,7 @@ module Staat
       # everything of that type'.
 
       def [](scope: nil, action: nil, name: nil, type: nil)
-        scope = expand_scope(scope)
+        scope ||= BasicObject
         type  = expand_type(type)
 
         result = Set.new(@events.values_at(*scope))

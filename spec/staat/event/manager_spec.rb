@@ -66,6 +66,9 @@ describe Staat::Event::Manager do
   describe '#[]' do
     context "when parameters don't match any storeds" do
       it 'should return nil' do
+        expect(empty[]).to be_nil
+        expect(trivial[**a5.to_query.merge(action: :concat)]).to be_nil
+        expect(complex[**a4.to_query.merge(name: :bar)]).to be_nil
       end
     end
 

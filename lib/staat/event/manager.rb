@@ -27,6 +27,16 @@ module Staat
 
     class Manager
 
+      ##
+      # Return the default manager.
+
+      def self.default
+        @@default_manager ||= Manager.new
+      end
+
+      ##
+      #
+
       def initialize
         @events = {}
       end
@@ -85,6 +95,13 @@ module Staat
       def clear
         @events.clear
         self
+      end
+
+      ##
+      # Return a Dispatch for the given parameters.
+
+      def prime(object, name, args, options)
+        Event::Dispatch.new(self, name, args, options)
       end
 
     private

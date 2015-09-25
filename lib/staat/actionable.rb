@@ -29,7 +29,7 @@ module Staat
 
     def define_action(name, &body)
       define_method(name) do |*args, **options|
-        dispatch = Event::Dispatch.new(self, name, args, options)
+        dispatch = Event::Manager.default.prime(self, name, args, options)
         dispatch.event :invocation
 
         begin

@@ -29,7 +29,7 @@ module Staat
 
     def define_action(name, &body)
       define_method(name) do |*args, **options|
-        dispatch = Event::Manager.default.prime(self, name, args, options)
+        dispatch = self.default_manager.prime(self, name, args, options)
         dispatch.event :invocation
 
         begin
@@ -40,6 +40,15 @@ module Staat
 
         dispatch.event :completion, result: result
       end
+    end
+
+  private
+
+    ##
+    # Return the default Manager.
+
+    def default_manager
+      @@default_manager ||= Event::Manager.new
     end
 
   end

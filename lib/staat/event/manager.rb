@@ -28,13 +28,6 @@ module Staat
     class Manager
 
       ##
-      # Return the default manager.
-
-      def self.default
-        @@default_manager ||= Manager.new
-      end
-
-      ##
       #
 
       def initialize

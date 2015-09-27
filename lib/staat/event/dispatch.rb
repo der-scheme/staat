@@ -43,9 +43,24 @@ module Staat
       ##
       #
 
-      def event(type, **options)
+      def invocation
         #
       end
+
+      ##
+      #
+
+      def failure(error)
+        #
+      end
+
+      ##
+      #
+
+      def completion(result)
+        #
+      end
+
     end
   end
 end

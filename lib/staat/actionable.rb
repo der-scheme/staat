@@ -30,15 +30,15 @@ module Staat
     def define_action(name, &body)
       define_method(name) do |*args, **options|
         dispatch = self.default_manager.prime(self, name, args, options)
-        dispatch.event :invocation
+        dispatch.invocation
 
         begin
           result = lambda(&body).call(*args, **options)
         rescue StandardError => error
-          dispatch.event :failure, error: error
+          dispatch.failure(error)
         end
 
-        dispatch.event :completion, result: result
+        dispatch.completion(result)
       end
     end
 

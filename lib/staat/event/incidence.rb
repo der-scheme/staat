@@ -16,7 +16,43 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'staat/event/anticipation'
-require 'staat/event/dispatch'
-require 'staat/event/incidence'
-require 'staat/event/manager'
+##
+#
+
+module Staat
+  module Event
+    class Incidence
+      def initialize(args: nil, object: nil, options: nil)
+        @args = args
+        @object = object
+        @options = options
+      end
+
+      attr_reader :args
+      attr_reader :object
+      attr_reader :options
+
+      class Invocation < Incidence
+      end
+
+      class Failure < Incidence
+        def initialize(error: nil, **options)
+          @error = error
+          super(**options)
+        end
+
+        attr_reader :error
+      end
+
+      class Completion < Incidence
+        def initialize(result: nil, **options)
+          @result = result
+          super(**options)
+        end
+
+        attr_reader :result
+      end
+
+    end
+  end
+end
